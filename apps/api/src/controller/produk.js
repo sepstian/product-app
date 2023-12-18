@@ -8,17 +8,15 @@ module.exports = {
         include: [
           {
             model: Kategori,
-            as: 'kategori',
-            attributes: ['nama_kategori']
+            attributes: ["nama_kategori"],
           },
           {
             model: Status,
-            as: 'status',
-            attributes: ['nama_status']
-          }
-        ]
-      })
-      return res.status(200).send(result)
+            attributes: ["nama_status"],
+          },
+        ],
+      });
+      return res.status(200).send(result);
     } catch (error) {
       next(errorResponse(500, false, "Error Get Produk", null, error.message));
     }
@@ -27,17 +25,17 @@ module.exports = {
     try {
       const checkProduk = await Produk.findOne({
         where: {
-          nama_produk: req.body.nama_produk
-        }
-      })
+          nama_produk: req.body.nama_produk,
+        },
+      });
       if (checkProduk) {
         return res.status(400).send({
           succes: false,
           message: "Produk is exist",
         });
       }
-      const result = await Produk.create(req.body);
-      return res.status(200).send(result);
+        const result = await Produk.create(req.body);
+        return res.status(200).send(result);
     } catch (error) {
       next(errorResponse(500, false, "Error Produk", null, error.message));
     }
@@ -50,27 +48,43 @@ module.exports = {
         kategori_id: req.body.kategori_id,
         status_id: req.body.status_id,
       };
-      const update = await Produk.update({ ...updateData },
+      const update = await Produk.update(
+        { ...updateData },
         {
-            where: {
-                id: req.body.id
-            }
-        })
-        return res.status(200).send(update)
+          where: {
+            id: req.body.id,
+          },
+        }
+      );
+      return res.status(200).send(update);
     } catch (error) {
       next(errorResponse(500, false, "Error Edit Produk", null, error.message));
     }
   },
-  deleteProduk: async(req, res, next) => {
+  deleteProduk: async (req, res, next) => {
     try {
       const hapus = await Produk.destroy({
         where: {
-          id: req.body.id
-        }
-      })
-      return res.status(200).send(hapus)
+          id: req.body.id,
+        },
+      });
+      if(hapus){
+        return res.status(200).send({
+          succes: true,
+          message: "Succes Delete Produk"
+        });
+      }
     } catch (error) {
-      next(errorResponse(500, false, "Error Delete Produk", null, error.message))
+      next(
+        errorResponse(500, false, "Error Delete Produk", null, error.message)
+      );
     }
-  }
+  },
 };
+
+// {
+//   "nama_produk" : "Meja makan MEWAH",
+//   "harga" : 50000,
+//   "kategori_id" : 1,
+//   "status_id" : 1
+// }

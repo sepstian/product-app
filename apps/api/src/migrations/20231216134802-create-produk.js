@@ -10,25 +10,17 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       nama_produk: {
+        allowNull: false,
         type: Sequelize.STRING
       },
       harga: {
         type: Sequelize.INTEGER
       },
       kategori_id: {
-        // allowNull: false,
         type: Sequelize.INTEGER,
-        reference: {
-          model: 'Kategoris',
-          key: 'id',
-        }
       },
       status_id: {
         type: Sequelize.INTEGER,
-        reference: {
-          model: 'Statuses',
-          key: 'id',
-        }
       },
       createdAt: {
         allowNull: false,

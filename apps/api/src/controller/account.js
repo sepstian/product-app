@@ -29,18 +29,15 @@ module.exports = {
       const loginAccount = await Account.findOne({
         where: {
           username: req.body.username,
-          password: req.body.password,
+          // password: req.body.password,
         },
-        raw: true,
+        raw:true
       });
+      console.log(loginAccount);
       if (loginAccount) {
         return res.status(200).send({
           succes: true,
           message: "Selamat login",
-          result: {
-            username,
-            password
-          },
         });
       } else {
         return res.status(400).send({
