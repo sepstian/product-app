@@ -1,6 +1,7 @@
 const { join } = require("path");
 require("dotenv").config({ path: join(__dirname, "../.env") });
 const express = require("express");
+const { accountRouter, produkRouter, kategoriRouter, statusRouter } = require("./router");
 const PORT = process.env.PORT || 2500;
 const app = express();
 app.use(express.json());
@@ -10,6 +11,10 @@ app.get("/api", (req, res) => {
 });
 
 // #define route here
+app.use('/account', accountRouter)
+app.use('/produk', produkRouter)
+app.use('/kategori', kategoriRouter)
+app.use('/status', statusRouter)
 
 // not found
 app.use((req, res, next) => {
