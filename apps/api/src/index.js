@@ -4,7 +4,11 @@ const express = require("express");
 const { accountRouter, kategoriRouter, statusRouter, produkRouter } = require("./router");
 const PORT = process.env.PORT || 2500;
 const app = express();
+const bearerToken = require("express-bearer-token")
+const cors = require("cors")
 app.use(express.json());
+app.use(cors())
+app.use(bearerToken())
 
 app.get("/api", (req, res) => {
   res.status(200).send("<h1>API in TURBOREPO</h1>");

@@ -1,25 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import { Route, Routes } from 'react-router-dom'
 import './App.css'
+import { useDispatch, useSelector } from 'react-redux'
+import { useEffect } from 'react'
+import { checkDataAccount } from './redux/slice/accountSlice'
+import NotFound from './pages/PageNotFound'
+import LoginPage from './pages/PageLogin/Login'
+import ManageProduk from './pages/PageManageProduk'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const dispatch = useDispatch()
+  const loginAccount = useSelector((state) => {
+    return state.accountSlice
+  })
+
+  useEffect(() => {
+    dispatch(checkDataAccount())
+
+  }, [])
 
   return (
     <>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+    <Routes>
+      <Route path='*' element={<NotFound/>}/>
+      <Route path='/' element={<LoginPage/>}/>
+      <Route path='/manage-produk' element={<ManageProduk/>}/>
+    </Routes>
     </>
   )
 }

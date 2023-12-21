@@ -1,5 +1,6 @@
 const { errorResponse } = require("../helper/utils");
 const { Produk, Kategori, Status } = require("../models");
+const jwt = require("jsonwebtoken");
 
 module.exports = {
   getProduk: async (req, res, next) => {
@@ -16,7 +17,74 @@ module.exports = {
           },
         ],
       });
-      return res.status(200).send(result);
+      if (result) {
+        const { id, nama_produk, harga, kategori_id, status_id } = result;
+        const token = jwt.sign({
+          id,
+          nama_produk,
+          harga,
+          kategori_id,
+          status_id,
+        },
+        process.env.SCRT_TKN,
+        {
+          expiresIn: "24h"
+        }
+        );
+        return res.status(200).send({
+          message: {
+            result,
+            token
+          }
+        });
+      }
+    } catch (error) {
+      next(errorResponse(500, false, "Error Get Produk", null, error.message));
+    }
+  },
+  getStatusProduk: async (req, res, next) => {
+    try {
+      const result = await Produk.findAll({
+        where: {
+          status_id: req.params.id
+        },
+        include: [
+          {
+            model: Kategori,
+            attributes: ["nama_kategori"],
+          },
+          {
+            model: Status,
+            attributes: ["nama_status"],
+          },
+        ],
+      });
+
+      if (result) {
+        const { id, nama_produk, harga, kategori_id, status_id } = result;
+        const token = jwt.sign({
+          id,
+          nama_produk,
+          harga,
+          kategori_id,
+          status_id,
+        },
+        process.env.SCRT_TKN,
+        {
+          expiresIn: "24h"
+        }
+        );
+        return res.status(200).send({
+          message: {
+            result,
+            token
+          }
+        });
+      } else {
+        return res.status(404).send({
+          message: "Produk dengan status_id 1 tidak ditemukan."
+        });
+      }
     } catch (error) {
       next(errorResponse(500, false, "Error Get Produk", null, error.message));
     }
@@ -34,8 +102,26 @@ module.exports = {
           message: "Produk is exist",
         });
       }
-        const result = await Produk.create(req.body);
-        return res.status(200).send(result);
+      const result = await Produk.create(req.body);
+      const token = jwt.sign(
+        {
+          id: result.id,
+          nama_produk: result.nama_produk,
+          harga: result.harga,
+          kategori_id: result.kategori_id,
+          status_id: result.status_id,
+        },
+        process.env.SCRT_TKN,
+        {
+          expiresIn: "24h",
+        }
+      );
+      return res.status(200).send({
+        message: {
+          ...result,
+          token,
+        },
+      });
     } catch (error) {
       next(errorResponse(500, false, "Error Produk", null, error.message));
     }
@@ -52,7 +138,7 @@ module.exports = {
         { ...updateData },
         {
           where: {
-            id: req.body.id,
+            id: req.params.id,
           },
         }
       );
@@ -65,13 +151,13 @@ module.exports = {
     try {
       const hapus = await Produk.destroy({
         where: {
-          id: req.body.id,
+          id: req.params.id,
         },
       });
-      if(hapus){
+      if (hapus) {
         return res.status(200).send({
           succes: true,
-          message: "Succes Delete Produk"
+          message: "Succes Delete Produk",
         });
       }
     } catch (error) {
