@@ -25,11 +25,6 @@ const LoginPage = () => {
     console.log("INI RESPON", response.data.result.token);
     localStorage.setItem("tokenAccount", response.data.result.token);
     dispatch(login(response.data.result));
-    if (dataAccount) {
-      navigate("/manage-produk");
-    } else {
-      navigate("*");
-    }
   };
 
   if(dataAccount){

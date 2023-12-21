@@ -78,7 +78,6 @@ const ManageProduk = () => {
   const getDataProduk = async () => {
     try {
       const dataproduk = await API_CALL.get("/api/produk");
-      console.log(dataProduk);
       setInProduks(dataproduk.data.message.result);
       dispatch(setProduk(dataproduk.data.message.result));
     } catch (error) {
@@ -159,8 +158,6 @@ const ManageProduk = () => {
         const addStatus = await API_CALL.post("/status/create", {
           nama_status: status,
         });
-        console.log(addStatus);
-        console.log(addKategori);
         const addProduk = await API_CALL.post("/api/produk/create", {
           nama_produk: namaProduk,
           harga: harga,

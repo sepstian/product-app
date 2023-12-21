@@ -1,4 +1,4 @@
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes, useNavigate } from 'react-router-dom'
 import './App.css'
 import { useDispatch, useSelector } from 'react-redux'
 import { useEffect } from 'react'
@@ -9,14 +9,20 @@ import ManageProduk from './pages/PageManageProduk'
 
 function App() {
   const dispatch = useDispatch()
+  const navigate = useNavigate()
   const loginAccount = useSelector((state) => {
     return state.accountSlice
   })
 
   useEffect(() => {
     dispatch(checkDataAccount())
-
   }, [])
+  // if (loginAccount) {
+  //   navigate("/manage-produk");
+  // } else {
+  //   navigate("/");
+  // }
+
 
   return (
     <>
