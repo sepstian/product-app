@@ -141,9 +141,7 @@ const ManageProduk = () => {
         namaProduk === "" ||
         harga == 0 &&
         kategori !== "" &&
-        status !== "" ||
-        selectKategori == 0 &&
-        selectStatus == 0
+        status !== ""
       ) {
         const addKategori = await API_CALL.post("/kategori/create", {
           nama_kategori: kategori,
