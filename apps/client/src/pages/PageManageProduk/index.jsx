@@ -162,17 +162,9 @@ const ManageProduk = () => {
         harga !== "" &&
         namaProduk === "" ||
         harga == 0 &&
-        kategori === "" &&
-        status === "" ||
         selectKategori !== 0 &&
         selectStatus !== 0
       ) {
-        const addKategori = await API_CALL.post("/kategori/create", {
-          nama_kategori: kategori,
-        });
-        const addStatus = await API_CALL.post("/status/create", {
-          nama_status: status,
-        });
         const addProduk = await API_CALL.post("/api/produk/create", {
           nama_produk: namaProduk,
           harga: harga,
