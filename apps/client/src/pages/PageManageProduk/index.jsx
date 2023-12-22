@@ -94,28 +94,12 @@ const ManageProduk = () => {
       } else if (harga == 0 && namaProduk !== "") {
         alert("Tabel Harga Mohon di isi");
       } else if (
+        namaProduk !== "" ||
+        harga !== "" &&
+        namaProduk === "" ||
+        harga == 0 &&
         kategori !== "" &&
-        status !== "" &&
-        selectKategori == 0 &&
-        selectStatus == 0
-      ) {
-        const addKategori = await API_CALL.post("/kategori/create", {
-          nama_kategori: kategori,
-        });
-        const addStatus = await API_CALL.post("/status/create", {
-          nama_status: status,
-        });
-        const addProduk = await API_CALL.post("/api/produk/create", {
-          nama_produk: namaProduk,
-          harga: harga,
-          kategori_id: addKategori.data.result.id,
-          status_id: addStatus.data.result.id,
-        });
-        alert("Add Produk Berhasil");
-        onClose();
-      } else if (
-        kategori !== "" &&
-        status === "" &&
+        status === "" ||
         selectKategori == 0 &&
         selectStatus !== 0
       ) {
@@ -131,8 +115,12 @@ const ManageProduk = () => {
         alert("Add Produk Berhasil");
         onClose();
       } else if (
+        namaProduk !== "" ||
+        harga !== "" &&
+        namaProduk === "" ||
+        harga == 0 &&
         kategori === "" &&
-        status !== "" &&
+        status !== "" ||
         selectKategori !== 0 &&
         selectStatus == 0
       ) {
@@ -148,8 +136,37 @@ const ManageProduk = () => {
         alert("Add Produk Berhasil");
         onClose();
       } else if (
-        kategori !== "" ||
-        (status !== "" && selectKategori !== 0) ||
+        namaProduk !== "" ||
+        harga !== "" &&
+        namaProduk === "" ||
+        harga == 0 &&
+        kategori !== "" &&
+        status !== "" ||
+        selectKategori == 0 &&
+        selectStatus == 0
+      ) {
+        const addKategori = await API_CALL.post("/kategori/create", {
+          nama_kategori: kategori,
+        });
+        const addStatus = await API_CALL.post("/status/create", {
+          nama_status: status,
+        });
+        const addProduk = await API_CALL.post("/api/produk/create", {
+          nama_produk: namaProduk,
+          harga: harga,
+          kategori_id: addKategori.data.result.id,
+          status_id: addStatus.data.result.id,
+        });
+        alert("Add Produk Berhasil");
+        onClose();
+      } else if (
+        namaProduk !== "" ||
+        harga !== "" &&
+        namaProduk === "" ||
+        harga == 0 &&
+        kategori === "" &&
+        status === "" ||
+        selectKategori !== 0 &&
         selectStatus !== 0
       ) {
         const addKategori = await API_CALL.post("/kategori/create", {
@@ -161,17 +178,16 @@ const ManageProduk = () => {
         const addProduk = await API_CALL.post("/api/produk/create", {
           nama_produk: namaProduk,
           harga: harga,
-          kategori_id:
-            addKategori === "" ? addKategori.data.result.id : selectKategori,
-          status_id: addStatus === "" ? addStatus.data.result.id : selectStatus,
+          kategori_id: selectKategori,
+          status_id: selectStatus,
         });
         alert("Add Produk Berhasil");
         onClose();
-      }
-      if(resetSort){
-        await onSort()
-      }else{
-        await getDataProduk()
+      } 
+      if (resetSort) {
+        await onSort();
+      } else {
+        await getDataProduk();
       }
     } catch (error) {
       console.log(error);
@@ -230,10 +246,10 @@ const ManageProduk = () => {
         );
         alert("Edit produk Berhasil");
         onToggleCloseEdit();
-        if(resetSort){
-          await onSort()
-        }else{
-          await getDataProduk()
+        if (resetSort) {
+          await onSort();
+        } else {
+          await getDataProduk();
         }
       }
     } catch (error) {
@@ -255,10 +271,10 @@ const ManageProduk = () => {
       );
       onToggleCloseDelete();
       alert("Delete produk Berhasil");
-      if(resetSort){
-        await onSort()
-      }else{
-        await getDataProduk()
+      if (resetSort) {
+        await onSort();
+      } else {
+        await getDataProduk();
       }
     } catch (error) {
       console.log(error);
