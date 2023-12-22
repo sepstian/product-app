@@ -117,21 +117,21 @@ const ManageProduk = () => {
         });
         console.log(addKategori);
         console.log(addStatus);
-        if(kategori && status){
+        if(kategori !== "" && status !== ""){
           const addProduk = await API_CALL.post("/api/produk/create", {
             nama_produk: namaProduk,
             harga: harga,
             kategori_id: addKategori.data.result.id,
             status_id: addStatus.data.result.id,
           });
-        }else if(kategori && selectStatus){
+        }else if(kategori !== "" && selectStatus){
           const addProduk = await API_CALL.post("/api/produk/create", {
             nama_produk: namaProduk,
             harga: harga,
             kategori_id: addKategori.data.result.id,
             status_id: selectStatus,
           });
-        }else if(status && selectKategori){
+        }else if(status !== "" && selectKategori){
           const addProduk = await API_CALL.post("/api/produk/create", {
             nama_produk: namaProduk,
             harga: harga,
@@ -147,7 +147,7 @@ const ManageProduk = () => {
           });
         }
         onClose();
-        alert('succes')
+        alert('Berhasil Tambah Data Produk')
       }
       if (resetSort) {
         await onSort();
@@ -433,10 +433,10 @@ const ManageProduk = () => {
                 <Text>Rp. {produk.harga.toLocaleString("id")}</Text>
               </Td>
               <Td textAlign={"center"} borderWidth="1px" borderColor="gray.200">
-                <Text>{produk.Kategori.nama_kategori}</Text>
+                <Text maxW="200px">{produk.Kategori.nama_kategori}</Text>
               </Td>
               <Td textAlign={"center"} borderWidth="1px" borderColor="gray.200">
-                <Text>{produk.Status.nama_status}</Text>
+                <Text maxW="200px">{produk.Status.nama_status}</Text>
               </Td>
               <Td textAlign={"center"} borderWidth="1px" borderColor="gray.200">
                 <Button
