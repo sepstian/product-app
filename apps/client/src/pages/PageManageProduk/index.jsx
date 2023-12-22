@@ -95,13 +95,9 @@ const ManageProduk = () => {
         alert("Tabel Harga Mohon di isi");
       } else if (
         namaProduk !== "" ||
-        harga !== "" &&
-        namaProduk === "" ||
-        harga == 0 &&
-        kategori !== "" &&
-        status === "" ||
-        selectKategori == 0 &&
-        selectStatus !== 0
+        (harga !== "" && namaProduk === "") ||
+        (harga == 0 && kategori !== "" && status === "") ||
+        (selectKategori == 0 && selectStatus !== 0)
       ) {
         const addKategori = await API_CALL.post("/kategori/create", {
           nama_kategori: kategori,
@@ -116,13 +112,9 @@ const ManageProduk = () => {
         onClose();
       } else if (
         namaProduk !== "" ||
-        harga !== "" &&
-        namaProduk === "" ||
-        harga == 0 &&
-        kategori === "" &&
-        status !== "" ||
-        selectKategori !== 0 &&
-        selectStatus == 0
+        (harga !== "" && namaProduk === "") ||
+        (harga == 0 && kategori === "" && status !== "") ||
+        (selectKategori !== 0 && selectStatus == 0)
       ) {
         const addStatus = await API_CALL.post("/status/create", {
           nama_status: status,
@@ -137,11 +129,8 @@ const ManageProduk = () => {
         onClose();
       } else if (
         namaProduk !== "" ||
-        harga !== "" &&
-        namaProduk === "" ||
-        harga == 0 &&
-        kategori !== "" &&
-        status !== ""
+        (harga !== "" && namaProduk === "") ||
+        (harga == 0 && kategori !== "" && status !== "")
       ) {
         const addKategori = await API_CALL.post("/kategori/create", {
           nama_kategori: kategori,
@@ -159,11 +148,8 @@ const ManageProduk = () => {
         onClose();
       } else if (
         namaProduk !== "" ||
-        harga !== "" &&
-        namaProduk === "" ||
-        harga == 0 &&
-        selectKategori !== 0 &&
-        selectStatus !== 0
+        (harga !== "" && namaProduk === "") ||
+        (harga == 0 && selectKategori !== 0 && selectStatus !== 0)
       ) {
         const addProduk = await API_CALL.post("/api/produk/create", {
           nama_produk: namaProduk,
@@ -173,7 +159,7 @@ const ManageProduk = () => {
         });
         alert("Add Produk Berhasil");
         onClose();
-      } 
+      }
       if (resetSort) {
         await onSort();
       } else {
@@ -305,263 +291,235 @@ const ManageProduk = () => {
     }, [resetSort]);
   }
 
-  if (dataAccount) {
-    return (
-      <>
-        <Flex h={"83px"} justifyContent={"center"} bg={"#F2F2F2"} mb={"16"}>
-          <Text
-            display={"flex"}
-            height={"80px"}
-            width={"50%"}
-            justifyContent={"center"}
-            alignItems={"center"}
-            borderRadius={"20px"}
-            boxShadow={
-              "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px"
-            }
-            fontWeight={"bold"}
-            bg={"rgb(247, 247, 247)"}
-            fontSize={"24px"}
-          >
-            Manage Produk
-          </Text>
-        </Flex>
+  return (
+    <>
+      <Flex h={"83px"} justifyContent={"center"} bg={"#F2F2F2"} mb={"16"}>
+        <Text
+          display={"flex"}
+          height={"80px"}
+          width={"50%"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          borderRadius={"20px"}
+          boxShadow={
+            "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px"
+          }
+          fontWeight={"bold"}
+          bg={"rgb(247, 247, 247)"}
+          fontSize={"24px"}
+        >
+          Manage Produk
+        </Text>
+      </Flex>
 
-        <Button
-          mb={"4"}
-          justifyItems={"flex-end"}
-          colorScheme="green"
-          textColor={"white"}
-          ml={"2"}
-          onClick={onOpen}
-        >
-          Add +
-        </Button>
-        <Button
-          mb={"4"}
-          justifyItems={"flex-end"}
-          colorScheme="green"
-          textColor={"white"}
-          ml={"2"}
-          onClick={onToggleOpenSort}
-        >
-          Sort By
-        </Button>
-        <Button
-          mb={"4"}
-          justifyItems={"flex-end"}
-          colorScheme="red"
-          textColor={"white"}
-          ml={"2"}
-          onClick={onToggleOpenReset}
-        >
-          Reset Sort
-        </Button>
+      <Button
+        mb={"4"}
+        justifyItems={"flex-end"}
+        colorScheme="green"
+        textColor={"white"}
+        ml={"2"}
+        onClick={onOpen}
+      >
+        Add +
+      </Button>
+      <Button
+        mb={"4"}
+        justifyItems={"flex-end"}
+        colorScheme="green"
+        textColor={"white"}
+        ml={"2"}
+        onClick={onToggleOpenSort}
+      >
+        Sort By
+      </Button>
+      <Button
+        mb={"4"}
+        justifyItems={"flex-end"}
+        colorScheme="red"
+        textColor={"white"}
+        ml={"2"}
+        onClick={onToggleOpenReset}
+      >
+        Reset Sort
+      </Button>
 
-        <Table borderWidth="1px" borderColor="gray.200">
-          <Thead>
-            <Tr>
-              <Th
+      <Table borderWidth="1px" borderColor="gray.200">
+        <Thead>
+          <Tr>
+            <Th
+              textAlign={"center"}
+              w={"5%"}
+              borderWidth="1px"
+              borderColor="gray.200"
+            >
+              NO
+            </Th>
+            <Th
+              textAlign={"center"}
+              w={"30%"}
+              borderWidth="1px"
+              borderColor="gray.200"
+            >
+              NAMA PRODUK
+            </Th>
+            <Th
+              textAlign={"center"}
+              w={"15%"}
+              borderWidth="1px"
+              borderColor="gray.200"
+            >
+              HARGA
+            </Th>
+            <Th
+              textAlign={"center"}
+              w={"15%"}
+              borderWidth="1px"
+              borderColor="gray.200"
+            >
+              KATEGORI
+            </Th>
+            <Th
+              textAlign={"center"}
+              w={"15%"}
+              borderWidth="1px"
+              borderColor="gray.200"
+            >
+              STATUS
+            </Th>
+            <Th
+              textAlign={"center"}
+              w={"20%"}
+              borderWidth="1px"
+              borderColor="gray.200"
+            >
+              ACTION
+            </Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          {produks.map((produk, index) => (
+            <Tr
+              key={produk.id}
+              height={"auto"}
+              borderWidth="1px"
+              borderColor="gray.200"
+            >
+              <Td textAlign={"center"} borderWidth="1px" borderColor="gray.200">
+                {index + 1}
+              </Td>
+              <Td
                 textAlign={"center"}
-                w={"5%"}
+                align="center"
                 borderWidth="1px"
                 borderColor="gray.200"
               >
-                NO
-              </Th>
-              <Th
-                textAlign={"center"}
-                w={"30%"}
-                borderWidth="1px"
-                borderColor="gray.200"
-              >
-                NAMA PRODUK
-              </Th>
-              <Th
-                textAlign={"center"}
-                w={"15%"}
-                borderWidth="1px"
-                borderColor="gray.200"
-              >
-                HARGA
-              </Th>
-              <Th
-                textAlign={"center"}
-                w={"15%"}
-                borderWidth="1px"
-                borderColor="gray.200"
-              >
-                KATEGORI
-              </Th>
-              <Th
-                textAlign={"center"}
-                w={"15%"}
-                borderWidth="1px"
-                borderColor="gray.200"
-              >
-                STATUS
-              </Th>
-              <Th
-                textAlign={"center"}
-                w={"20%"}
-                borderWidth="1px"
-                borderColor="gray.200"
-              >
-                ACTION
-              </Th>
+                <Flex align="center" justify="center" flexDirection="column">
+                  <Text maxW="200px">{produk.nama_produk}</Text>
+                </Flex>
+              </Td>
+              <Td textAlign={"center"} borderWidth="1px" borderColor="gray.200">
+                <Text>Rp. {produk.harga.toLocaleString("id")}</Text>
+              </Td>
+              <Td textAlign={"center"} borderWidth="1px" borderColor="gray.200">
+                <Text>{produk.Kategori.nama_kategori}</Text>
+              </Td>
+              <Td textAlign={"center"} borderWidth="1px" borderColor="gray.200">
+                <Text>{produk.Status.nama_status}</Text>
+              </Td>
+              <Td textAlign={"center"} borderWidth="1px" borderColor="gray.200">
+                <Button
+                  onClick={() => deleteSetProduk(produk.id)}
+                  marginRight={"5px"}
+                  colorScheme="red"
+                  textColor={"white"}
+                >
+                  Delete
+                </Button>
+                <Button
+                  onClick={() => editSetProduk(produk.id)}
+                  marginLeft={"5px"}
+                  colorScheme="green"
+                  textColor={"white"}
+                >
+                  Edit
+                </Button>
+              </Td>
             </Tr>
-          </Thead>
-          <Tbody>
-            {produks.map((produk, index) => (
-              <Tr
-                key={produk.id}
-                height={"auto"}
-                borderWidth="1px"
-                borderColor="gray.200"
-              >
-                <Td
-                  textAlign={"center"}
-                  borderWidth="1px"
-                  borderColor="gray.200"
-                >
-                  {index + 1}
-                </Td>
-                <Td
-                  textAlign={"center"}
-                  align="center"
-                  borderWidth="1px"
-                  borderColor="gray.200"
-                >
-                  <Flex align="center" justify="center" flexDirection="column">
-                    <Text maxW="200px">{produk.nama_produk}</Text>
-                  </Flex>
-                </Td>
-                <Td
-                  textAlign={"center"}
-                  borderWidth="1px"
-                  borderColor="gray.200"
-                >
-                  <Text>Rp. {produk.harga.toLocaleString("id")}</Text>
-                </Td>
-                <Td
-                  textAlign={"center"}
-                  borderWidth="1px"
-                  borderColor="gray.200"
-                >
-                  <Text>{produk.Kategori.nama_kategori}</Text>
-                </Td>
-                <Td
-                  textAlign={"center"}
-                  borderWidth="1px"
-                  borderColor="gray.200"
-                >
-                  <Text>{produk.Status.nama_status}</Text>
-                </Td>
-                <Td
-                  textAlign={"center"}
-                  borderWidth="1px"
-                  borderColor="gray.200"
-                >
-                  <Button
-                    onClick={() => deleteSetProduk(produk.id)}
-                    marginRight={"5px"}
-                    colorScheme="red"
-                    textColor={"white"}
-                  >
-                    Delete
-                  </Button>
-                  <Button
-                    onClick={() => editSetProduk(produk.id)}
-                    marginLeft={"5px"}
-                    colorScheme="green"
-                    textColor={"white"}
-                  >
-                    Edit
-                  </Button>
-                </Td>
-              </Tr>
-            ))}
-          </Tbody>
-        </Table>
-        <br />
-        <br />
-        {onOpen ? (
-          <ModalAdd
-            isOpen={isOpen}
-            onClose={onClose}
-            onClick={addProduk}
-            mapKategori={dataKategori}
-            mapStatus={dataStatus}
-            onNamaproduk={(e) => setNamaProduk(e.target.value)}
-            onHarga={(e) => setHarga(e.target.value)}
-            onKategori={(e) => setKategori(e.target.value)}
-            onSelectKategori={(e) => setSelectKategori(e.target.value)}
-            onStatus={(e) => setStatus(e.target.value)}
-            onSelectStatus={(e) => setSelectStatus(e.target.value)}
-          />
-        ) : (
-          ""
-        )}
-        {onToggleOpenEdit ? (
-          <ModalEdit
-            isOpen={isOpenModalEdit}
-            onClose={onToggleCloseEdit}
-            onClick={saveProduk}
-            valNamaProduk={namaProduk}
-            valHarga={harga}
-            valKategori={kategori}
-            valStatus={status}
-            mapKategori={dataKategori}
-            mapStatus={dataStatus}
-            onNamaproduk={(e) => setNamaProduk(e.target.value)}
-            onHarga={(e) => setHarga(e.target.value)}
-            onKategori={(e) => setKategori(e.target.value)}
-            onSelectKategori={(e) => setSelectKategori(e.target.value)}
-            onStatus={(e) => setStatus(e.target.value)}
-            onSelectStatus={(e) => setSelectStatus(e.target.value)}
-          />
-        ) : (
-          ""
-        )}
-        {onToggleOpenDelete ? (
-          <ModalDelete
-            isOpen={isOpenModalDelete}
-            onClose={onToggleCloseDelete}
-            onClick={deleteProduk}
-            namaProduk={deleteNamaProduk}
-          />
-        ) : (
-          ""
-        )}
-        {onToggleOpenSort ? (
-          <ModalSort
-            isOpen={isOpenModalSort}
-            onClose={onToggleCloseSort}
-            onClick={onSort}
-            mapStatus={dataStatus}
-            onSelectStatus={(e) => setSelectStatusSort(e.target.value)}
-          />
-        ) : (
-          ""
-        )}
-        {onToggleOpenReset ? (
-          <ModalReset
-            isOpen={isOpenModalReset}
-            onClose={onToggleCloseReset}
-            onClick={onReset}
-          />
-        ) : (
-          ""
-        )}
-      </>
-    );
-  } else {
-    return (
-      <>
-        <NotFound />
-      </>
-    );
-  }
+          ))}
+        </Tbody>
+      </Table>
+      <br />
+      <br />
+      {onOpen ? (
+        <ModalAdd
+          isOpen={isOpen}
+          onClose={onClose}
+          onClick={addProduk}
+          mapKategori={dataKategori}
+          mapStatus={dataStatus}
+          onNamaproduk={(e) => setNamaProduk(e.target.value)}
+          onHarga={(e) => setHarga(e.target.value)}
+          onKategori={(e) => setKategori(e.target.value)}
+          onSelectKategori={(e) => setSelectKategori(e.target.value)}
+          onStatus={(e) => setStatus(e.target.value)}
+          onSelectStatus={(e) => setSelectStatus(e.target.value)}
+        />
+      ) : (
+        ""
+      )}
+      {onToggleOpenEdit ? (
+        <ModalEdit
+          isOpen={isOpenModalEdit}
+          onClose={onToggleCloseEdit}
+          onClick={saveProduk}
+          valNamaProduk={namaProduk}
+          valHarga={harga}
+          valKategori={kategori}
+          valStatus={status}
+          mapKategori={dataKategori}
+          mapStatus={dataStatus}
+          onNamaproduk={(e) => setNamaProduk(e.target.value)}
+          onHarga={(e) => setHarga(e.target.value)}
+          onKategori={(e) => setKategori(e.target.value)}
+          onSelectKategori={(e) => setSelectKategori(e.target.value)}
+          onStatus={(e) => setStatus(e.target.value)}
+          onSelectStatus={(e) => setSelectStatus(e.target.value)}
+        />
+      ) : (
+        ""
+      )}
+      {onToggleOpenDelete ? (
+        <ModalDelete
+          isOpen={isOpenModalDelete}
+          onClose={onToggleCloseDelete}
+          onClick={deleteProduk}
+          namaProduk={deleteNamaProduk}
+        />
+      ) : (
+        ""
+      )}
+      {onToggleOpenSort ? (
+        <ModalSort
+          isOpen={isOpenModalSort}
+          onClose={onToggleCloseSort}
+          onClick={onSort}
+          mapStatus={dataStatus}
+          onSelectStatus={(e) => setSelectStatusSort(e.target.value)}
+        />
+      ) : (
+        ""
+      )}
+      {onToggleOpenReset ? (
+        <ModalReset
+          isOpen={isOpenModalReset}
+          onClose={onToggleCloseReset}
+          onClick={onReset}
+        />
+      ) : (
+        ""
+      )}
+    </>
+  );
 };
 
 export default ManageProduk;
