@@ -8,7 +8,6 @@ const produkSlice = createSlice({
   },
   reducers: {
     setProduk: (state, action) => {
-        console.log("CEK PAYLOAD",action.payload);
       state.produk = action.payload;
     },
   },

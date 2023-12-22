@@ -16,8 +16,6 @@ import { IoMdClose } from "react-icons/io";
 import { useSelector } from "react-redux";
 
 const ModalAdd = (props) => {
-  const [selectKategori, setInSelectKategori] = React.useState(false);
-  const [selectStatus, setInSelectStatus] = React.useState(false);
   const dataProduk = useSelector((state) => {
     return state.produkSlice;
   });
@@ -74,7 +72,7 @@ const ModalAdd = (props) => {
               ></Input>
             </Box>
             <Box display={"flex"} width={"400px"}>
-              {selectKategori === true ? (
+              {props.typeSelectKategori === true ? (
                 <>
                   <Input
                     height={"50px"}
@@ -84,7 +82,7 @@ const ModalAdd = (props) => {
                   ></Input>
                   <Button
                     height={"50px"}
-                    onClick={() => setInSelectKategori(!selectKategori)}
+                    onClick={() => props.setTypeSelectKategori(!props.typeSelectKategori)}
                   >
                     <FaArrowLeft />
                   </Button>
@@ -106,7 +104,7 @@ const ModalAdd = (props) => {
                   </Select>
                   <Button
                     height={"50px"}
-                    onClick={() => setInSelectKategori(!selectKategori)}
+                    onClick={() => props.setTypeSelectKategori(!props.typeSelectKategori)}
                   >
                     <FaPlus />
                   </Button>
@@ -114,7 +112,7 @@ const ModalAdd = (props) => {
               )}
             </Box>
             <Box display={"flex"} width={"400px"}>
-              {selectStatus === true ? (
+              {props.typeSelectStatus === true ? (
                 <>
                   <Input
                     height={"50px"}
@@ -124,7 +122,7 @@ const ModalAdd = (props) => {
                   ></Input>
                   <Button
                     height={"50px"}
-                    onClick={() => setInSelectStatus(!selectStatus)}
+                    onClick={() => props.setTypeSelectStatus(!props.typeSelectStatus)}
                   >
                     <FaArrowLeft />
                   </Button>
@@ -146,7 +144,7 @@ const ModalAdd = (props) => {
                   </Select>
                   <Button
                     height={"50px"}
-                    onClick={() => setInSelectStatus(!selectStatus)}
+                    onClick={() => props.setTypeSelectStatus(!props.typeSelectStatus)}
                   >
                     <FaPlus />
                   </Button>

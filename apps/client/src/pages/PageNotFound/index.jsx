@@ -1,7 +1,14 @@
 import { Flex, Text } from "@chakra-ui/react";
+import { useEffect } from "react";
 import { PiSmileySadFill } from "react-icons/pi";
+import { useNavigate } from "react-router-dom";
 
 const NotFound = () => {
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    window.history.back()
+  }, [])
   return (
     <>
       <div style={{ height: "100vh", width: "100vw" }}>

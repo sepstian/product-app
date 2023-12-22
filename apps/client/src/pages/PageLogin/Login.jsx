@@ -28,14 +28,12 @@ const LoginPage = () => {
     const loginAccount = localStorage.getItem("tokenAccount", response.data.result.token)
     if(loginAccount){
       navigate('/manage-produk')
-    }else{
+    }else if(!loginAccount){
       navigate('/')
+      localStorage.removeItem("tokenAccount")
     }
   };
 
-
-
-  if(dataAccount){
     return (
       <>
         <div style={{ height: "100vh", width: "100vw" }}>
@@ -103,13 +101,6 @@ const LoginPage = () => {
         </div>
       </>
     );
-  }else{
-    return(
-      <>
-      <NotFound/>
-      </>
-    )
-  }
 };
 
 export default LoginPage;

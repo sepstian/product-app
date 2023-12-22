@@ -97,7 +97,6 @@ const ModalEdit = (props) => {
                     onChange={props.onSelectKategori}
                   >
                     {props.mapKategori.map((dataKategori) => {
-                      console.log(dataKategori);
                       return (
                         <option key={dataKategori.id} value={dataKategori.id}>
                           {dataKategori.nama_kategori}

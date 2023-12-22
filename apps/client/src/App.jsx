@@ -16,12 +16,11 @@ function App() {
     dispatch(checkDataAccount())
     if (loginAccount) {
       navigate("/manage-produk");
-    } else {
-      navigate("/");
+    } else if(!loginAccount){
+      navigate("/")
+      localStorage.removeItem("tokenAccount")
     }
   }, [])
-
-
 
   return (
     <>

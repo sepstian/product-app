@@ -43,6 +43,8 @@ const ManageProduk = () => {
     return state.accountSlice;
   });
   const [resetSort, setResetSort] = useState(false);
+  const [typeSelectKategori, setTypeSelectKategori] = useState(false)
+  const [typeSelectStatus, setTypeSelectStatus] = useState(false)
   const [deleteIdx, setDeleteIdx] = useState(0);
   const [deleteNamaProduk, setDeleteNamaProduk] = useState("");
   const [produks, setInProduks] = useState([]);
@@ -56,6 +58,9 @@ const ManageProduk = () => {
   const [status, setStatus] = useState("");
   const [selectStatus, setSelectStatus] = useState(0);
   const [selectStatusSort, setSelectStatusSort] = useState(0);
+
+  const tipeKategori = typeSelectKategori === false ? 0 : ""
+  const tipeStatus = typeSelectStatus === false ? 0 : ""
 
   const getKategori = async () => {
     try {
@@ -86,84 +91,72 @@ const ManageProduk = () => {
   };
 
   const addProduk = async () => {
+    
     try {
-      if (namaProduk === "" && harga == 0) {
-        alert("Tabel Mohon di isi");
-      } else if (namaProduk === "" && harga !== 0) {
-        alert("Tabel Nama Produk Mohon di isi");
-      } else if (harga == 0 && namaProduk !== "") {
-        alert("Tabel Harga Mohon di isi");
-      } else if (
-        namaProduk !== "" ||
-        (harga !== "" && namaProduk === "") ||
-        (harga == 0 && kategori !== "" && status === "") ||
-        (selectKategori == 0 && selectStatus !== 0)
-      ) {
-        const addKategori = await API_CALL.post("/kategori/create", {
-          nama_kategori: kategori,
-        });
-        const addProduk = await API_CALL.post("/api/produk/create", {
-          nama_produk: namaProduk,
-          harga: harga,
-          kategori_id: addKategori.data.result.id,
-          status_id: selectStatus,
-        });
-        alert("Add Produk Berhasil");
-        onClose();
-      } else if (
-        namaProduk !== "" ||
-        (harga !== "" && namaProduk === "") ||
-        (harga == 0 && kategori === "" && status !== "") ||
-        (selectKategori !== 0 && selectStatus == 0)
-      ) {
-        const addStatus = await API_CALL.post("/status/create", {
-          nama_status: status,
-        });
-        const addProduk = await API_CALL.post("/api/produk/create", {
-          nama_produk: namaProduk,
-          harga: harga,
-          kategori_id: selectKategori,
-          status_id: addStatus.data.result.id,
-        });
-        alert("Add Produk Berhasil");
-        onClose();
-      } else if (
-        namaProduk !== "" ||
-        (harga !== "" && namaProduk === "") ||
-        (harga == 0 && kategori !== "" || status !== "")
-      ) {
+      if (namaProduk === "" && harga == 0 && kategori === "" && selectKategori === 0 && status === "" && selectStatus == 0) {
+        alert("Tabel Mohon diisi dengan sempurna");
+      }else if (namaProduk === "") {
+        alert("Tabel Nama Produk Mohon diisi");
+      }else if(harga == 0 || harga === ""){
+        alert("Tabel Harga Mohon diisi")
+      }else if(kategori === "" && selectKategori == 0 || selectKategori === ""){
+        alert("Tabel Kategory Mohon diisi")
+      }else if(status === "" && selectStatus == 0 || selectKategori === ""){
+        alert("Tabel Status Mohon diisi")
+      }else if(
+        namaProduk !== "" && harga !== 0 && kategori !== "" && status !== "" && selectKategori == 0 && selectStatus == 0 ||
+        namaProduk !== "" && harga !== 0 && kategori !== "" && status === "" && selectKategori == 0 && selectStatus !== 0 ||
+        namaProduk !== "" && harga !== 0 && kategori === "" && status !== "" && selectKategori !== 0 && selectStatus == 0 ||
+        namaProduk !== "" && harga !== 0 && kategori === "" && status === "" && selectKategori !== 0 && selectStatus !== 0
+        ){
         const addKategori = await API_CALL.post("/kategori/create", {
           nama_kategori: kategori,
         });
         const addStatus = await API_CALL.post("/status/create", {
           nama_status: status,
         });
-        const addProduk = await API_CALL.post("/api/produk/create", {
-          nama_produk: namaProduk,
-          harga: harga,
-          kategori_id: addKategori.data.result.id,
-          status_id: addStatus.data.result.id,
-        });
-        alert("Add Produk Berhasil");
+        console.log(addKategori);
+        console.log(addStatus);
+        if(kategori && status){
+          const addProduk = await API_CALL.post("/api/produk/create", {
+            nama_produk: namaProduk,
+            harga: harga,
+            kategori_id: addKategori.data.result.id,
+            status_id: addStatus.data.result.id,
+          });
+        }else if(kategori && selectStatus){
+          const addProduk = await API_CALL.post("/api/produk/create", {
+            nama_produk: namaProduk,
+            harga: harga,
+            kategori_id: addKategori.data.result.id,
+            status_id: selectStatus,
+          });
+        }else if(status && selectKategori){
+          const addProduk = await API_CALL.post("/api/produk/create", {
+            nama_produk: namaProduk,
+            harga: harga,
+            kategori_id: selectKategori,
+            status_id: addStatus.data.result.id,
+          });
+        }else if(selectKategori && selectStatus){
+          const addProduk = await API_CALL.post("/api/produk/create", {
+            nama_produk: namaProduk,
+            harga: harga,
+            kategori_id: selectKategori,
+            status_id: selectStatus,
+          });
+        }
         onClose();
-      } else if (
-        namaProduk !== "" ||
-        (harga !== "" && namaProduk === "") ||
-        (harga == 0 && selectKategori !== 0 && selectStatus !== 0)
-      ) {
-        const addProduk = await API_CALL.post("/api/produk/create", {
-          nama_produk: namaProduk,
-          harga: harga,
-          kategori_id: selectKategori,
-          status_id: selectStatus,
-        });
-        alert("Add Produk Berhasil");
-        onClose();
+        alert('succes')
       }
       if (resetSort) {
         await onSort();
+        await getKategori();
+        await getStatus();
       } else {
         await getDataProduk();
+        await getKategori();
+        await getStatus();
       }
     } catch (error) {
       console.log(error);
@@ -276,6 +269,25 @@ const ManageProduk = () => {
     window.location.reload();
     onToggleCloseReset();
   };
+
+  useEffect(() => {
+    setKategori('')
+    setSelectKategori(0)
+  }, [typeSelectKategori])
+
+  useEffect(() => {
+    setStatus('')
+    setSelectStatus(0)
+  }, [typeSelectStatus])
+
+  useEffect(() => {
+    setNamaProduk("")
+    setHarga(0)
+    setKategori("")
+    setSelectKategori(0)
+    setStatus("")
+    setSelectStatus(0)
+  }, [onOpen])
 
   if (!resetSort) {
     useEffect(() => {
@@ -455,6 +467,10 @@ const ManageProduk = () => {
           isOpen={isOpen}
           onClose={onClose}
           onClick={addProduk}
+          typeSelectKategori={typeSelectKategori}
+          setTypeSelectKategori={setTypeSelectKategori}
+          typeSelectStatus={typeSelectStatus}
+          setTypeSelectStatus={setTypeSelectStatus}
           mapKategori={dataKategori}
           mapStatus={dataStatus}
           onNamaproduk={(e) => setNamaProduk(e.target.value)}
