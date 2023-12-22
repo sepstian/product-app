@@ -289,6 +289,15 @@ const ManageProduk = () => {
     setSelectStatus(0)
   }, [onOpen])
 
+  useEffect(() => {
+    setNamaProduk("")
+    setHarga(0)
+    setKategori("")
+    setSelectKategori(0)
+    setStatus("")
+    setSelectStatus(0)
+  }, [onClose])
+
   if (!resetSort) {
     useEffect(() => {
       getDataProduk();
