@@ -130,7 +130,7 @@ const ManageProduk = () => {
       } else if (
         namaProduk !== "" ||
         (harga !== "" && namaProduk === "") ||
-        (harga == 0 && kategori !== "" && status !== "")
+        (harga == 0 && kategori !== "" || status !== "")
       ) {
         const addKategori = await API_CALL.post("/kategori/create", {
           nama_kategori: kategori,
