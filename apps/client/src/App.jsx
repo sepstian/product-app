@@ -10,18 +10,17 @@ import ManageProduk from './pages/PageManageProduk'
 function App() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const loginAccount = useSelector((state) => {
-    return state.accountSlice
-  })
-
+  const loginAccount = localStorage.getItem("tokenAccount")
+  
   useEffect(() => {
     dispatch(checkDataAccount())
+    if (loginAccount) {
+      navigate("/manage-produk");
+    } else {
+      navigate("/");
+    }
   }, [])
-  // if (loginAccount) {
-  //   navigate("/manage-produk");
-  // } else {
-  //   navigate("/");
-  // }
+
 
 
   return (

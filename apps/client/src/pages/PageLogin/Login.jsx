@@ -25,7 +25,15 @@ const LoginPage = () => {
     console.log("INI RESPON", response.data.result.token);
     localStorage.setItem("tokenAccount", response.data.result.token);
     dispatch(login(response.data.result));
+    const loginAccount = localStorage.getItem("tokenAccount", response.data.result.token)
+    if(loginAccount){
+      navigate('/manage-produk')
+    }else{
+      navigate('/')
+    }
   };
+
+
 
   if(dataAccount){
     return (
